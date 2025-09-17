@@ -1,16 +1,45 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar";
 import PGResults from "../components/home/PGResults";
 import usePGSearch from "../hooks/usePGSearch";
 
-const DEFAULT_LIMIT = 15;
+const MOBILE_LIMIT = 10;
+const DESKTOP_LIMIT = 15;
 const DEFAULT_RANGE = 15;
+const DESKTOP_BREAKPOINT = 1024;
+
+const useResponsiveLimit = ({
+  mobile = MOBILE_LIMIT,
+  desktop = DESKTOP_LIMIT,
+  breakpoint = DESKTOP_BREAKPOINT,
+} = {}) => {
+  const getLimit = useCallback(() => {
+    if (typeof window === "undefined") {
+      return desktop;
+    }
+    return window.innerWidth < breakpoint ? mobile : desktop;
+  }, [breakpoint, desktop, mobile]);
+
+  const [limit, setLimit] = useState(getLimit);
+
+  useEffect(() => {
+    setLimit(getLimit());
+    const handleResize = () => setLimit(getLimit());
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [getLimit]);
+
+  return limit;
+};
 
 const Home = () => {
   const [mode, setMode] = useState("location");
   const [query, setQuery] = useState("");
   const [coordinates, setCoordinates] = useState(null);
   const [rangeKm, setRangeKm] = useState(DEFAULT_RANGE);
+
+  const limit = useResponsiveLimit();
 
   const {
     listings,
@@ -25,7 +54,7 @@ const Home = () => {
     retry,
     showError,
     resetError,
-  } = usePGSearch({ limit: DEFAULT_LIMIT });
+  } = usePGSearch({ limit });
 
   const isLoading = status === "loading";
 
@@ -111,6 +140,12 @@ const Home = () => {
       goToPage(currentPage + 1);
     }
   }, [currentPage, goToPage, hasMore]);
+
+  useEffect(() => {
+    if (searchTriggered) {
+      retry();
+    }
+  }, [limit, retry, searchTriggered]);
 
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-6">

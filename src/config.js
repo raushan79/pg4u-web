@@ -1,7 +1,7 @@
 // src/config.js
 
-export const API_BASE_URL = "http://localhost:6556";
-// export const API_BASE_URL = "https://api.pg4u.in";
+// export const API_BASE_URL = "http://localhost:6556";
+export const API_BASE_URL = "https://api.pg4u.in";
 
 // Add other constants here as needed
 export const APP_NAME = "PG4U";

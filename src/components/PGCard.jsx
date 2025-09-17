@@ -6,7 +6,23 @@ const PGCard = ({ pg }) => {
   const addressLine =
     pg.address || pg.fullAddress || `${pg.locality ?? ""}, ${pg.city ?? ""}`;
   const ownerName = pg.owner?.fullName || "Owner info unavailable";
-  const ownerPhone = pg.owner?.mobileNumber || null;
+  const rawPhone = pg.owner?.mobileNumber || null;
+  const formatPhone = (value) => {
+    if (!value) return null;
+
+    const digitsOnly = value.replace(/[^0-9]/g, "");
+    if (digitsOnly.length < 10) {
+      return null;
+    }
+
+    const lastTen = digitsOnly.slice(-10);
+    const dial = `+91${lastTen}`;
+    const display = `+91 ${lastTen}`;
+
+    return { dial, display };
+  };
+
+  const ownerPhone = formatPhone(rawPhone);
   const hasPhone = Boolean(ownerPhone);
 
   return (
@@ -35,7 +51,8 @@ const PGCard = ({ pg }) => {
 
           {addressLine && (
             <p className="text-sm text-gray-600">
-              <span className="font-semibold text-gray-700">Address:</span> {addressLine}
+              <span className="font-semibold text-gray-700">Address:</span>{" "}
+              {addressLine}
             </p>
           )}
 
@@ -57,7 +74,8 @@ const PGCard = ({ pg }) => {
             <p className="text-base font-semibold text-blue-900">{ownerName}</p>
             {hasPhone && (
               <p className="text-sm text-blue-700">
-                Phone: <span className="font-semibold">{ownerPhone}</span>
+                Phone:{" "}
+                <span className="font-semibold">{ownerPhone.display}</span>
               </p>
             )}
           </div>
@@ -66,13 +84,13 @@ const PGCard = ({ pg }) => {
         {hasPhone && (
           <div className="mt-auto flex justify-center pt-4">
             <a
-              href={`tel:${ownerPhone}`}
+              href={`tel:${ownerPhone.dial}`}
               className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
             >
               <span role="img" aria-label="phone">
                 📞
               </span>
-              Call {ownerName.split(" ")[0] || "Owner"}
+              Call {ownerPhone.display}
             </a>
           </div>
         )}
