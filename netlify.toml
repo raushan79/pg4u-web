@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "https://www.pg4u.in/*"
+  to = "https://pg4u.in/:splat"
+  status = 301
+  force = true
