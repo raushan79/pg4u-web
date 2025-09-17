@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import PGCard from "./PGCard";
 
 const PAGE_SIZE = 6;

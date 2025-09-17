@@ -24,13 +24,22 @@ const Navbar = () => {
           <Link to="/" className="hover:text-blue-500 transition duration-200">
             Home
           </Link>
-          <Link to="/pg-listing" className="hover:text-blue-500 transition duration-200">
+          <Link
+            to="/pg-listing"
+            className="hover:text-blue-500 transition duration-200"
+          >
             List Your PG
           </Link>
-          <Link to="/blogs" className="hover:text-blue-500 transition duration-200">
+          <Link
+            to="/blogs"
+            className="hover:text-blue-500 transition duration-200"
+          >
             Blogs
           </Link>
-          <Link to="/contact-us" className="hover:text-blue-500 transition duration-200">
+          <Link
+            to="/contact-us"
+            className="hover:text-blue-500 transition duration-200"
+          >
             Contact
           </Link>
 
@@ -72,16 +81,32 @@ const Navbar = () => {
       {menuOpen && (
         <div className="md:hidden bg-white shadow border-t">
           <div className="flex flex-col items-center space-y-4 py-4 text-gray-700 font-medium">
-            <Link to="/" onClick={() => setMenuOpen(false)} className="hover:text-blue-500 transition">
+            <Link
+              to="/"
+              onClick={() => setMenuOpen(false)}
+              className="hover:text-blue-500 transition"
+            >
               Home
             </Link>
-            <Link to="/pg-listing" onClick={() => setMenuOpen(false)} className="hover:text-blue-500 transition">
+            <Link
+              to="/pg-listing"
+              onClick={() => setMenuOpen(false)}
+              className="hover:text-blue-500 transition"
+            >
               List Your PG
             </Link>
-            <Link to="/blogs" onClick={() => setMenuOpen(false)} className="hover:text-blue-500 transition">
+            <Link
+              to="/blogs"
+              onClick={() => setMenuOpen(false)}
+              className="hover:text-blue-500 transition"
+            >
               Blogs
             </Link>
-            <Link to="/contact" onClick={() => setMenuOpen(false)} className="hover:text-blue-500 transition">
+            <Link
+              to="/contact"
+              onClick={() => setMenuOpen(false)}
+              className="hover:text-blue-500 transition"
+            >
               Contact
             </Link>
 
